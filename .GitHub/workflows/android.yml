@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Unzip Project
-        run: unzip schuetzentracker.zip # Hier muss der Name deiner ZIP-Datei stehen!
+        run: unzip SchuetzenTracker.zip # Hier muss der Name deiner ZIP-Datei stehen!
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
