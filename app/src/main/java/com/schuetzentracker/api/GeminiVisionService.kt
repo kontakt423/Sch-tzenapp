@@ -20,12 +20,12 @@ import java.util.concurrent.TimeUnit
 // GOOGLE GEMINI VISION API
 //
 // Kostenlos nutzbar:
-//  - Gemini 1.5 Flash: 15 Anfragen/Min, 1.500/Tag
+//  - Gemini 2.0 Flash: 15 Anfragen/Min, 1.500/Tag
 //  - API Key holen: https://aistudio.google.com/app/apikey
 //
 // Endpoint:
-//  POST https://generativelanguage.googleapis.com/v1beta/
-//       models/gemini-1.5-flash:generateContent?key=API_KEY
+//  POST https://generativelanguage.googleapis.com/v1/
+//       models/gemini-2.0-flash:generateContent?key=API_KEY
 // ────────────────────────────────────────────────
 
 class GeminiVisionService(private val apiKey: String) {
@@ -38,10 +38,10 @@ class GeminiVisionService(private val apiKey: String) {
 
     private val gson = Gson()
 
-    // Gemini 1.5 Flash ist kostenlos und sehr schnell für Bildanalyse
-    private val MODEL = "gemini-1.5-flash"
+    // Gemini 2.0 Flash ist kostenlos und sehr schnell für Bildanalyse
+    private val MODEL = "gemini-2.0-flash"
     private val BASE_URL =
-        "https://generativelanguage.googleapis.com/v1beta/models/$MODEL:generateContent"
+        "https://generativelanguage.googleapis.com/v1/models/$MODEL:generateContent"
 
     suspend fun analyzeTarget(
         bitmap: Bitmap,
