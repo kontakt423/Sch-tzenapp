@@ -48,7 +48,11 @@ fun DiaryScreen(
         )
     }
 
-    Scaffold(topBar = { TopAppBar(title = { Text("📓 Trainings-Tagebuch") }) }) { padding ->
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(
+            title = { Text("Tagebuch", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+        )
+    }) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(16.dp),
@@ -144,53 +148,71 @@ fun DiaryEntryCard(session: TrainingSession, onClick: () -> Unit, onDelete: () -
         else                       -> MaterialTheme.colorScheme.primary
     }
 
-    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            // Datum
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.width(44.dp)
+    Card(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            // Datum-Badge
+            Surface(
+                shape = MaterialTheme.shapes.small,
+                color = MaterialTheme.colorScheme.primaryContainer
             ) {
-                Text(session.date.format(DateTimeFormatter.ofPattern("dd")),
-                    style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text(session.date.format(DateTimeFormatter.ofPattern("MMM")),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            VerticalDivider(modifier = Modifier.height(56.dp).padding(horizontal = 12.dp))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                Column(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(session.mode.emoji, style = MaterialTheme.typography.labelMedium)
-                    Text(session.disciplineName.ifBlank { "Unbekannt" },
-                        style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
+                    Text(
+                        session.date.format(DateTimeFormatter.ofPattern("dd")),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        session.date.format(DateTimeFormatter.ofPattern("MMM")).uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.65f)
+                    )
                 }
+            }
+
+            // Inhalt
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 Text(
-                    "${session.date.format(DateTimeFormatter.ofPattern("HH:mm"))} • ${session.location} • ${session.series.size} Serien",
+                    session.disciplineName.ifBlank { "Unbekannt" },
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1
+                )
+                Text(
+                    "${session.mode.emoji} ${session.mode.displayName}  ·  ${session.location}  ·  ${session.series.size} Serien",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
                 )
                 if (session.competitionName?.isNotBlank() == true) {
-                    Text(session.competitionName, style = MaterialTheme.typography.bodySmall, color = modeColor)
-                }
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(session.conditions.weather.emoji, style = MaterialTheme.typography.labelSmall)
-                    Text(session.conditions.fatigue.emoji, style = MaterialTheme.typography.labelSmall)
+                    Text(session.competitionName, style = MaterialTheme.typography.labelSmall, color = modeColor)
                 }
             }
 
-            Column(horizontalAlignment = Alignment.End) {
-                Text("${session.totalRings}",
+            // Rechts: Ringe + Löschen
+            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    "${session.totalRings}",
                     style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = modeColor)
+                    fontWeight = FontWeight.ExtraBold,
+                    color = modeColor
+                )
                 IconButton(onClick = onDelete, modifier = Modifier.size(24.dp)) {
-                    Icon(Icons.Default.DeleteOutline, "Löschen",
+                    Icon(
+                        Icons.Default.DeleteOutline, "Löschen",
                         modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                    )
                 }
             }
         }

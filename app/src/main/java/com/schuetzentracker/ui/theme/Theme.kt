@@ -1,64 +1,120 @@
 package com.schuetzentracker.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-// ────────────────────────────────────────────────
-// SCHÜTZENTRACKER THEME
-// Waldgrün + Gold – klassische Schützensport-Ästhetik
-// ────────────────────────────────────────────────
+// ── FARBEN ───────────────────────────────────────────────────────────
+// Modern: Lebendiges Grün + Bernstein-Akzent
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF4CAF50),
-    onPrimary = Color(0xFF003300),
-    primaryContainer = Color(0xFF1B5E20),
-    onPrimaryContainer = Color(0xFFB9F6CA),
-    secondary = Color(0xFFFFB300),
-    onSecondary = Color(0xFF3E2000),
-    secondaryContainer = Color(0xFF5C3800),
-    onSecondaryContainer = Color(0xFFFFDDB3),
-    tertiary = Color(0xFF81C784),
-    onTertiary = Color(0xFF00210E),
-    error = Color(0xFFEF5350),
-    background = Color(0xFF0D1F0D),
-    onBackground = Color(0xFFE8F5E9),
-    surface = Color(0xFF1A2E1A),
-    onSurface = Color(0xFFDCEFDC),
-    surfaceVariant = Color(0xFF1E3820),
-    onSurfaceVariant = Color(0xFFB0C4B0)
+    primary              = Color(0xFF4ADE80),   // green-400
+    onPrimary            = Color(0xFF052E16),
+    primaryContainer     = Color(0xFF14532D),
+    onPrimaryContainer   = Color(0xFFBBF7D0),
+    secondary            = Color(0xFFFBBF24),   // amber-400
+    onSecondary          = Color(0xFF3B2500),
+    secondaryContainer   = Color(0xFF4D3500),
+    onSecondaryContainer = Color(0xFFFDE68A),
+    tertiary             = Color(0xFF34D399),   // emerald-400
+    onTertiary           = Color(0xFF022C22),
+    tertiaryContainer    = Color(0xFF064E3B),
+    onTertiaryContainer  = Color(0xFFA7F3D0),
+    error                = Color(0xFFF87171),
+    onError              = Color(0xFF450A0A),
+    errorContainer       = Color(0xFF7F1D1D),
+    onErrorContainer     = Color(0xFFFECACA),
+    background           = Color(0xFF090E09),   // tiefes dunkelgrün-schwarz
+    onBackground         = Color(0xFFDEEDDE),
+    surface              = Color(0xFF111711),
+    onSurface            = Color(0xFFD8ECD8),
+    surfaceVariant       = Color(0xFF1C2A1C),
+    onSurfaceVariant     = Color(0xFF8BAF8D),
+    outline              = Color(0xFF365E3A),
+    outlineVariant       = Color(0xFF213823),
+    inverseSurface       = Color(0xFFD8ECD8),
+    inverseOnSurface     = Color(0xFF111711),
+    inversePrimary       = Color(0xFF166534)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF1B5E20),
-    onPrimary = Color.White,
-    primaryContainer = Color(0xFFB9F6CA),
-    onPrimaryContainer = Color(0xFF002204),
-    secondary = Color(0xFFF57F17),
-    onSecondary = Color.White,
-    secondaryContainer = Color(0xFFFFECB3),
-    onSecondaryContainer = Color(0xFF3E2000),
-    tertiary = Color(0xFF2E7D32),
-    onTertiary = Color.White,
-    error = Color(0xFFB00020),
-    background = Color(0xFFF5FBF5),
-    onBackground = Color(0xFF1A2E1A),
-    surface = Color.White,
-    onSurface = Color(0xFF1A2E1A),
-    surfaceVariant = Color(0xFFE8F5E9),
-    onSurfaceVariant = Color(0xFF3D5E42)
+    primary              = Color(0xFF15803D),   // green-700
+    onPrimary            = Color.White,
+    primaryContainer     = Color(0xFFDCFCE7),
+    onPrimaryContainer   = Color(0xFF052E16),
+    secondary            = Color(0xFFB45309),   // amber-700
+    onSecondary          = Color.White,
+    secondaryContainer   = Color(0xFFFEF9C3),
+    onSecondaryContainer = Color(0xFF3B1F00),
+    tertiary             = Color(0xFF047857),   // emerald-700
+    onTertiary           = Color.White,
+    tertiaryContainer    = Color(0xFFD1FAE5),
+    onTertiaryContainer  = Color(0xFF022C22),
+    error                = Color(0xFFDC2626),
+    onError              = Color.White,
+    errorContainer       = Color(0xFFFEE2E2),
+    onErrorContainer     = Color(0xFF7F1D1D),
+    background           = Color(0xFFF4FBF4),
+    onBackground         = Color(0xFF0C1A0E),
+    surface              = Color.White,
+    onSurface            = Color(0xFF0F1F11),
+    surfaceVariant       = Color(0xFFEDF7ED),
+    onSurfaceVariant     = Color(0xFF3A5C3D),
+    outline              = Color(0xFF6B9E70),
+    outlineVariant       = Color(0xFFC2DFC5),
+    inverseSurface       = Color(0xFF1E3B20),
+    inverseOnSurface     = Color(0xFFF4FBF4),
+    inversePrimary       = Color(0xFF4ADE80)
 )
+
+// ── FORMEN ───────────────────────────────────────────────────────────
+// Konsequent abgerundete Ecken für ein modernes Erscheinungsbild
+
+private val AppShapes = Shapes(
+    extraSmall = RoundedCornerShape(6.dp),
+    small      = RoundedCornerShape(10.dp),
+    medium     = RoundedCornerShape(16.dp),
+    large      = RoundedCornerShape(20.dp),
+    extraLarge = RoundedCornerShape(28.dp)
+)
+
+// ── TYPOGRAFIE ────────────────────────────────────────────────────────
+// Klare Hierarchie: fette Headlines, leichte Body-Texte
+
+private val AppTypography = Typography(
+    displayLarge   = TextStyle(fontWeight = FontWeight.ExtraBold, fontSize = 57.sp,  lineHeight = 64.sp, letterSpacing = (-0.25).sp),
+    displayMedium  = TextStyle(fontWeight = FontWeight.ExtraBold, fontSize = 45.sp,  lineHeight = 52.sp),
+    headlineLarge  = TextStyle(fontWeight = FontWeight.Bold,      fontSize = 32.sp,  lineHeight = 40.sp),
+    headlineMedium = TextStyle(fontWeight = FontWeight.Bold,      fontSize = 28.sp,  lineHeight = 36.sp),
+    headlineSmall  = TextStyle(fontWeight = FontWeight.Bold,      fontSize = 24.sp,  lineHeight = 32.sp),
+    titleLarge     = TextStyle(fontWeight = FontWeight.SemiBold,  fontSize = 22.sp,  lineHeight = 28.sp),
+    titleMedium    = TextStyle(fontWeight = FontWeight.SemiBold,  fontSize = 16.sp,  lineHeight = 24.sp, letterSpacing = 0.1.sp),
+    titleSmall     = TextStyle(fontWeight = FontWeight.SemiBold,  fontSize = 14.sp,  lineHeight = 20.sp, letterSpacing = 0.1.sp),
+    bodyLarge      = TextStyle(fontWeight = FontWeight.Normal,    fontSize = 16.sp,  lineHeight = 24.sp, letterSpacing = 0.5.sp),
+    bodyMedium     = TextStyle(fontWeight = FontWeight.Normal,    fontSize = 14.sp,  lineHeight = 20.sp, letterSpacing = 0.25.sp),
+    bodySmall      = TextStyle(fontWeight = FontWeight.Normal,    fontSize = 12.sp,  lineHeight = 16.sp, letterSpacing = 0.4.sp),
+    labelLarge     = TextStyle(fontWeight = FontWeight.Medium,    fontSize = 14.sp,  lineHeight = 20.sp, letterSpacing = 0.1.sp),
+    labelMedium    = TextStyle(fontWeight = FontWeight.Medium,    fontSize = 12.sp,  lineHeight = 16.sp, letterSpacing = 0.5.sp),
+    labelSmall     = TextStyle(fontWeight = FontWeight.Medium,    fontSize = 11.sp,  lineHeight = 16.sp, letterSpacing = 0.5.sp)
+)
+
+// ── THEME ─────────────────────────────────────────────────────────────
 
 @Composable
 fun SchutzenTrackerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography(),
-        content = content
+        colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
+        shapes      = AppShapes,
+        typography  = AppTypography,
+        content     = content
     )
 }

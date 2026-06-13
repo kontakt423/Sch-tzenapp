@@ -30,7 +30,11 @@ import com.schuetzentracker.model.TrainingMode
 fun StatisticsScreen(viewModel: StatisticsViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(topBar = { TopAppBar(title = { Text("📊 Statistiken") }) }) { padding ->
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(
+            title = { Text("Statistiken", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+        )
+    }) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(16.dp),
@@ -106,19 +110,33 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = hiltViewModel()) {
 fun KpiRow(state: StatisticsUiState) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         listOf(
-            Triple("Einheiten", state.totalSessions.toString(), Icons.Default.FitnessCenter),
-            Triple("Ø Ringe",   "%.1f".format(state.averageRings), Icons.Default.TrendingUp),
-            Triple("Schüsse",   state.totalShots.toString(), Icons.Default.GpsFixed)
+            Triple("Einheiten", state.totalSessions.toString(),        Icons.Default.FitnessCenter),
+            Triple("Ø Ringe",   "%.0f".format(state.averageRings),    Icons.Default.TrendingUp),
+            Triple("Schüsse",   state.totalShots.toString(),           Icons.Default.GpsFixed)
         ).forEach { (label, value, icon) ->
-            Card(modifier = Modifier.weight(1f)) {
+            Surface(
+                modifier      = Modifier.weight(1f),
+                shape         = MaterialTheme.shapes.medium,
+                color         = MaterialTheme.colorScheme.surfaceVariant,
+                tonalElevation = 1.dp
+            ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier.padding(vertical = 14.dp, horizontal = 4.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Icon(icon, null, Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
-                    Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                    Text(label, style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Icon(icon, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
+                    Text(
+                        value,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        label,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
         }
@@ -186,14 +204,14 @@ fun ProgressLineChart(data: List<WeeklyStatsRow>) {
         update = { chart ->
             val entries = data.mapIndexed { i, row -> Entry(i.toFloat(), row.avgRings.toFloat()) }
             val ds = LineDataSet(entries, "Ø Ringe").apply {
-                color = android.graphics.Color.parseColor("#1B5E20")
+                color = android.graphics.Color.parseColor("#4ADE80")
                 lineWidth = 2.5f
                 circleRadius = 4f
-                setCircleColor(android.graphics.Color.parseColor("#1B5E20"))
+                setCircleColor(android.graphics.Color.parseColor("#4ADE80"))
                 mode = LineDataSet.Mode.CUBIC_BEZIER
                 setDrawFilled(true)
-                fillAlpha = 30
-                valueTextColor = android.graphics.Color.parseColor("#1B5E20")
+                fillAlpha = 40
+                valueTextColor = android.graphics.Color.parseColor("#4ADE80")
             }
             chart.data = LineData(ds)
             chart.invalidate()
@@ -220,7 +238,7 @@ fun MonthlyBarChart(data: List<MonthlyStatsRow>) {
             val entries = reversed.mapIndexed { i, row -> BarEntry(i.toFloat(), row.avgRings.toFloat()) }
             val labels = reversed.map { it.month.takeLast(5) }
             val ds = BarDataSet(entries, "Ø Ringe").apply {
-                color = android.graphics.Color.parseColor("#4CAF50")
+                color = android.graphics.Color.parseColor("#4ADE80")
             }
             chart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             chart.data = BarData(ds)
@@ -259,46 +277,77 @@ fun CorrelationTable(data: List<Pair<String, Double>>) {
 
 @Composable
 fun PersonalBestCard(state: StatisticsUiState) {
-    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+    Card(
+        shape  = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(20.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
-                Text("⭐ Persönlicher Beststand", style = MaterialTheme.typography.titleSmall)
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Icon(Icons.Default.EmojiEvents, null, Modifier.size(16.dp), tint = MaterialTheme.colorScheme.primary)
+                    Text(
+                        "Persönlicher Beststand",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
                 state.personalBestDate?.let {
-                    Text("Aufgestellt am $it", style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f))
+                    Text(
+                        "Aufgestellt am $it",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.65f)
+                    )
                 }
             }
-            Text(state.personalBest?.toString() ?: "–",
+            Text(
+                state.personalBest?.toString() ?: "–",
                 style = MaterialTheme.typography.displaySmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary)
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
 
 @Composable
 fun StreakCard(streak: Int) {
-    Card {
+    val streakColor = when {
+        streak >= 30 -> MaterialTheme.colorScheme.error
+        streak >= 7  -> MaterialTheme.colorScheme.secondary
+        else         -> MaterialTheme.colorScheme.onSurface
+    }
+    Card(shape = MaterialTheme.shapes.large) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(20.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
-                Text("🔥 Trainings-Streak", style = MaterialTheme.typography.titleSmall)
-                Text(if (streak > 0) "Weiter so!" else "Heute mit Training beginnen!",
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Icon(Icons.Default.Whatshot, null, Modifier.size(16.dp), tint = streakColor)
+                    Text(
+                        "Trainings-Streak",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                Text(
+                    if (streak > 0) "Weiter so!" else "Heute mit Training beginnen!",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
-            Text("${streak}d",
+            Text(
+                "${streak}d",
                 style = MaterialTheme.typography.displaySmall,
-                fontWeight = FontWeight.Bold,
-                color = if (streak >= 7) MaterialTheme.colorScheme.error
-                else MaterialTheme.colorScheme.onSurface)
+                fontWeight = FontWeight.ExtraBold,
+                color = streakColor
+            )
         }
     }
 }

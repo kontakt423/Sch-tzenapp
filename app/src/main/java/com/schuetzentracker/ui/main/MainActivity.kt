@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -114,12 +115,14 @@ fun SchutzenTrackerApp() {
         },
         floatingActionButton = {
             if (showFab) {
-                FloatingActionButton(
+                ExtendedFloatingActionButton(
                     onClick = { navController.navigate(Screen.NewTraining.route) },
-                    containerColor = MaterialTheme.colorScheme.primary
-                ) {
-                    Icon(Icons.Default.Add, "Neues Training")
-                }
+                    icon = { Icon(Icons.Default.Add, null) },
+                    text = { Text("Training starten", fontWeight = FontWeight.SemiBold) },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor   = MaterialTheme.colorScheme.onPrimary,
+                    expanded = currentRoute == Screen.Home.route
+                )
             }
         }
     ) { innerPadding ->
