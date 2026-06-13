@@ -149,8 +149,7 @@ class GeminiVisionService(private val apiKey: String) {
           ],
           "generationConfig": {
             "temperature": 0.1,
-            "maxOutputTokens": 2000,
-            "responseMimeType": "text/plain"
+            "maxOutputTokens": 2000
           }
         }
         """.trimIndent()
