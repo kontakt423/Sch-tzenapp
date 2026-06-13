@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SchützenTracker</string>
+    <string name="tab_home">Start</string>
+    <string name="tab_diary">Tagebuch</string>
+    <string name="tab_statistics">Statistik</string>
+    <string name="tab_profile">Profil</string>
+    <string name="new_training">Neues Training</string>
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="delete">Löschen</string>
+    <string name="ai_analyze">KI-Analyse starten</string>
+    <string name="upload_photo">Scheibenfoto hochladen</string>
+    <string name="total_rings">Gesamtringe</string>
+    <string name="personal_best">Persönlicher Beststand</string>
+</resources>

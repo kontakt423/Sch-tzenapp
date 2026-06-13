@@ -1,0 +1,4 @@
+<resources>
+    <!-- Base theme für die App – kein ActionBar da Compose Scaffold verwendet wird -->
+    <style name="Theme.SchutzenTracker" parent="Theme.Material3.DayNight.NoActionBar" />
+</resources>

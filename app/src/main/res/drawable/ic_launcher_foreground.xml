@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Hintergrund: Waldgrün -->
+    <path
+        android:fillColor="#1B5E20"
+        android:pathData="M0,0 L108,0 L108,108 L0,108 Z" />
+
+    <!-- Zielscheibe: äußere Ringe -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M54,14 A40,40 0 1,1 53.99,14 Z" />
+    <path
+        android:fillColor="#81C784"
+        android:pathData="M54,24 A30,30 0 1,1 53.99,24 Z" />
+    <path
+        android:fillColor="#FFEE58"
+        android:pathData="M54,34 A20,20 0 1,1 53.99,34 Z" />
+    <path
+        android:fillColor="#FFD600"
+        android:pathData="M54,42 A12,12 0 1,1 53.99,42 Z" />
+
+    <!-- Bullseye: schwarzer Punkt -->
+    <path
+        android:fillColor="#1B5E20"
+        android:pathData="M54,48 A6,6 0 1,1 53.99,48 Z" />
+
+    <!-- Fadenkreuz: vertikal -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.7"
+        android:pathData="M52.5,10 L55.5,10 L55.5,98 L52.5,98 Z" />
+
+    <!-- Fadenkreuz: horizontal -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.7"
+        android:pathData="M10,52.5 L98,52.5 L98,55.5 L10,55.5 Z" />
+
+</vector>
