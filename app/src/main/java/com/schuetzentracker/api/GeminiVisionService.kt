@@ -38,10 +38,10 @@ class GeminiVisionService(private val apiKey: String) {
 
     private val gson = Gson()
 
-    // Gemini 1.5 Flash: kostenlos, 15 RPM, 1.500 Anfragen/Tag
-    private val MODEL = "gemini-1.5-flash"
+    // gemini-2.0-flash-lite: Free Tier, 30 RPM, 1.500 Anfragen/Tag
+    private val MODEL = "gemini-2.0-flash-lite"
     private val BASE_URL =
-        "https://generativelanguage.googleapis.com/v1/models/$MODEL:generateContent"
+        "https://generativelanguage.googleapis.com/v1beta/models/$MODEL:generateContent"
 
     suspend fun analyzeTarget(
         bitmap: Bitmap,
@@ -150,7 +150,13 @@ class GeminiVisionService(private val apiKey: String) {
           "generationConfig": {
             "temperature": 0.1,
             "maxOutputTokens": 2000
-          }
+          },
+          "safetySettings": [
+            {"category": "HARM_CATEGORY_HARASSMENT",        "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH",       "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"}
+          ]
         }
         """.trimIndent()
     }
